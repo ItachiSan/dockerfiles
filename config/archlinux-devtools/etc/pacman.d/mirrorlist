@@ -1,0 +1,3 @@
+# An always good fallback mirror.
+
+Server = https://mirrors.kernel.org/archlinux/$repo/os/$arch
