@@ -10,6 +10,7 @@ Inside them, you can build packages using the normal packaging tools or
 the chroot-based tools provided by the distros.
 - [ ] Ubuntu (chroot: `pbuilder-dist`)
 - [ ] ArchLinux (chroot: `extra-{x86_64,i686}`)
-
+  I've created a basic ArchLinux container (`Docker.archlinux`).
+  I will then expand it installing `base-devel` and maybe `devtools`
 # Android
 TODO

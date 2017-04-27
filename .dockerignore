@@ -1,0 +1,4 @@
+# Ignore tarballs scripts
+tarballs/*.sh
+# Ignore my READMEs
+*.md

@@ -1,0 +1,39 @@
+# Based on the Dockerfile present at: https://github.com/archimg/archlinux
+# Building a base ArchLinux image, on which I'll build a 'devtools' one.
+# A nice one: https://github.com/czka/archlinux-docker/blob/master/Dockerfile
+
+# Before building this image, you definetely should
+# 1. run the `tarballs/archlinux.sh` script
+# 2. fix the architecture and the release date here below
+# 3. ???
+# 4. PROFIT - You're now ready to build the image
+
+FROM scratch
+MAINTAINER Giovanni 'ItachiSan' Santini
+
+# Can be specified at build time. Check the repacked tarball for them.
+ARG ARCH=x86_64
+ARG RELEASE=2017.04.01
+
+# Use the tweaked tarball for the system
+ADD tarballs/archlinux-$RELEASE-$ARCH.tar.xz /
+
+# Add proper mirrors
+COPY config/archlinux/etc/pacman.d/mirrorlist /etc/pacman.d/
+
+# Populate the keyring inside the container
+RUN	pacman-key --init \
+	&& pacman-key --populate archlinux \
+	# Syncronize the databases and update the packages
+	&& pacman --noconfirm -Syyu \
+#	Would like to not install a bunch of packages from 'base'.
+#	&& echo "^4-5 ^8 ^18-21 ^24-26 ^29 ^31 ^33-34 ^37-38 ^42-43 ^46 ^50" | xargs pacman --noconfirm -S base \
+#	Should I remove some useless (for a container) packages?
+#	Just open an issue!
+	# Various cleanup
+	&& pacman --noconfirm -Scc \
+	&& rm -f \
+		/var/cache/pacman/pkg/* \
+		/var/lib/pacman/sync/* \
+		/README \
+		/etc/pacman.d/mirrorlist.pacnew
